@@ -1,0 +1,27 @@
+services:
+  php_demo:
+    container_name: 'php_demo'
+    build:
+      context: ../
+      dockerfile: docker/Dockerfile
+    ports:
+      - '9000:9000'
+    working_dir: /var/www/html
+    volumes:
+      - ../:/var/www/html
+    networks:
+      - backend
+  nginx_demo:
+    image: nginx:latest
+    container_name: nginx_demo
+    ports:
+      - '8081:80'
+    working_dir: /var/www/html
+    volumes:
+      - ../:/var/www/html
+      - ./nginx/conf.d/default.conf:/etc/nginx/nginx.conf
+    networks:
+      - backend
+networks:
+  backend:
+    driver: bridge
